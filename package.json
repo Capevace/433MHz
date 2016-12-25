@@ -1,0 +1,9 @@
+{
+  "name": "433MHz",
+  "version": "1.0.0",
+  "description": "A module for sending data on a 433MHz transmitter / receiver on a Raspberry Pi.",
+  "main": "index.js",
+  "repository": "https://github.com/Capevace/433MHz.git",
+  "author": "Lukas von Mateffy (@Capevace)",
+  "license": "MIT"
+}
