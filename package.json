@@ -1,5 +1,5 @@
 {
-  "name": "433MHz",
+  "name": "433mhz",
   "version": "1.0.0",
   "description": "A module for sending data on a 433MHz transmitter / receiver on a Raspberry Pi.",
   "main": "index.js",
