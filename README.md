@@ -1,5 +1,12 @@
 # 433MHz
-This is a npm package, used for transmitting data via 433 MHz transmitters on a raspberry pi.
+> A Node package to transmit data on a Raspberry Pi using a 433MHz sender.
+
+Note: I made this for my cheap remote outlets, I don't know if this is actually useful with other devices lol.
+
+## Installation
+```sh
+npm install 433MHz
+```
 
 ## Usage
 ```js
