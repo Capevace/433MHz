@@ -1,46 +1,39 @@
 const exec = require('child_process').exec;
 const path = require('path');
 
-function transmitCode(code, settings, callback) {
-	// If there are no settings supplied, use callback function instead
-	if (!callback && typeof settings === 'function') {
-		callback = settings;
-		settings = {};
-	}
-	
-	settings = settings || {};
-	var shortDelay = settings.shortDelay || 0.00037;
-	var longDelay = settings.longDelay || 0.00101;
-	var packetDelay = settings.packetDelay || 0.01102;
-	var transmitPin = settings.transmitPin || 18;
-	
-	var command = 'python'
-		+ ' ' + path.resolve(__dirname, 'transmit.py')
-		+ ' ' + code
-		+ ' ' + transmitPin
-		+ ' ' + shortDelay
-		+ ' ' + longDelay
-		+ ' ' + packetDelay;
-	
-	exec(command, function (err, stdout, stderr) {
-		// If there is a callback,
-		// call it
-		// if theres an error
-		// supply the error that occurred
-		if (callback) {
+/**
+ * Transmit a 433MHz signal, by using a python script.
+ *
+ * @async
+ * @param  {string}   code     Binary code to send
+ * @param  {object}   settings Settings
+ * @return {Promise}
+ */
+function transmitCode(code, settings) {
+	return new Promise((resolve, reject) => {
+		settings = settings || {};
+		const shortDelay = settings.shortDelay || 0.00037;
+		const longDelay = settings.longDelay || 0.00101;
+		const packetDelay = settings.packetDelay || 0.01102;
+		const transmitPin = settings.transmitPin || 18;
+		
+		const command = `python ${path.resolve(__dirname, 'transmit.py')} ${code} ${transmitPin} ${shortDelay} ${longDelay} ${packetDelay}`;
+		
+		exec(command, function (err, stdout, stderr) {
 			if (err) {
-				callback(err);
+				reject(err);
 			} else if (stderr !== '') {
-				callback(stdout.toString());
+				reject(new Error(stdout.toString()));
 			} else if (stdout !== '') { // there should be no output
-				callback(stdout.toString());
+				reject(new Error(stdout.toString()));
 			} else {
-				callback(null);
+				resolve();
 			}
-		}
+		});
 	});
-
 }
 
-module.exports = transmitCode;
+module.exports = {
+	transmitCode
+};
 
